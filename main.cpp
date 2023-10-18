@@ -7,6 +7,8 @@
 #include <WS2tcpip.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <String>
+#include <iostream>
 
 #pragma comment(lib, "Ws2_32.lib")
 // #pragma comment(lib, "Mswsock.lib")
@@ -90,6 +92,9 @@ int __cdecl main(void) {
 		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
 			printf("Bytes received: %d\n", iResult);
+			std::string content = std::string(recvbuf);
+			content.resize(iResult);
+			std::cout << content << std::endl;
 			iSendResult = send(ClientSocket, recvbuf, iResult, 0);
 			if (iSendResult == SOCKET_ERROR) {
 				printf("send failed: %d\n", WSAGetLastError());
